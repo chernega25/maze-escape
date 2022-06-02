@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+// using UnityEngine.InputSystem;
 
 
 public class InteractionHandler : MonoBehaviour
 {
-    void OnInteract() {
-        Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Debug.Log(clickPosition.ToString());
 
-        foreach (Collider2D collider in Physics2D.OverlapPointAll(clickPosition)) {
-            Debug.Log(collider.gameObject.tag);
+    private void Awake() {
+    }
+
+    public void Interaction(Vector2 position) {
+
+        foreach (Collider2D collider in Physics2D.OverlapPointAll(position)) {
             switch (collider.gameObject.tag)
             {
                 case "Door":
                     DoorInteract(collider.gameObject);
-                    continue;
+                    return;
                 default:
                     continue;
             }
         }
     }
-
     
     void DoorInteract(GameObject gameObject) {
         gameObject.GetComponent<DoorInteraction>().Interact();
